@@ -1,0 +1,56 @@
+name: Backend build and migration
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev, main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: impactid
+          POSTGRES_PASSWORD: impactid_ci_only
+          POSTGRES_DB: impactid_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U impactid -d impactid_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      NODE_ENV: test
+      PORT: 5000
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: impactid
+      DB_PASSWORD: impactid_ci_only
+      DB_DATABASE: impactid_ci
+      JWT_BEARER_SECRET: local-ci-secret-not-for-production
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+      - name: Unit tests
+        run: pnpm test --runInBand
+      - name: Fresh PostgreSQL migration
+        run: pnpm run migration:run

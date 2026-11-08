@@ -1,0 +1,18 @@
+packages:
+  - .
+
+overrides:
+  form-data: ">=4.0.0"
+  tough-cookie: ">=4.1.3"
+  cookie: ">=0.7.0"
+  tmp: ">=0.2.4"
+
+# pnpm 11 requires explicit decisions for dependency install scripts.
+allowBuilds:
+  "@nestjs/core": false
+  "@scarf/scarf": false
+  "@swc/core": true
+  argon2: false
+  bcrypt: true
+  msgpackr-extract: false
+  unrs-resolver: false
