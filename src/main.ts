@@ -1,4 +1,6 @@
 import { NestFactory } from "@nestjs/core";
+import { ValidationPipe } from "@nestjs/common";
+import { HttpExceptionFilter } from "@/common/filters/http-exception.filter";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "@/src/app.module";
@@ -6,16 +8,20 @@ import * as dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import { join } from "path";
 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useStaticAssets(join(process.cwd(), "uploads"), {
-    prefix: "/uploads/",
-  });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const expressApp = app.getHttpAdapter().getInstance();
   expressApp.set("trust proxy", true);
@@ -46,17 +52,18 @@ async function bootstrap() {
 
   // 2. Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle("KDex API")
+    .setTitle("ImpactID REST API")
+    .setDescription("Volunteer contribution verification and Impact Passport")
     .setVersion("1.0")
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("api/docs", app, document);
 
   // 3. Cookie Parser
-  const cookieSecret =
-    process.env.COOKIE_SECRET || "fallback-secret-dont-use-in-prod";
-  app.use(cookieParser(cookieSecret));
+  if (process.env.COOKIE_SECRET) {
+    app.use(cookieParser(process.env.COOKIE_SECRET));
+  }
 
   // 4. CORS Configuration
   const allowedOrigins = process.env.CORS_ORIGINS
@@ -70,6 +77,6 @@ async function bootstrap() {
     maxAge: 86400,
   });
 
-  await app.listen(parseInt(process.env.PORT as string));
+  await app.listen(Number(process.env.PORT ?? 5000));
 }
 bootstrap();
