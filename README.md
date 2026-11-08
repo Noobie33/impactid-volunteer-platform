@@ -48,5 +48,6 @@ Read these files **before creating a feature branch**:
 - `docs/DATABASE_CONTRACT.md` — tables, roles, relationships and invariants
 - `docs/API_CONTRACT.md` — planned routes and response/error conventions
 - `docs/TEAM_WORKFLOW.md` — ownership, branches and pull requests
+- `src/modules/README.md` — faculty-style module layout, ownership and scaffold limitations
 
-The initial foundation contains infrastructure and the database schema, not finished feature endpoints. Member 1 must implement JWT registration/login and Passport strategy before protected routes are usable. The shared JWT guard intentionally rejects unverified tokens; no route may bypass authentication by trusting a token's mere presence.
+The shared module scaffolding provides 15 registered modules and 14 TypeORM table mappings, **not finished feature endpoints**. Every DTO file is currently a TODO placeholder; add validated request classes before writing handlers. Member 1 must implement JWT registration/login and Passport strategy before protected routes are usable. The shared JWT guard intentionally rejects unverified tokens; no route may bypass authentication by trusting a token's mere presence.

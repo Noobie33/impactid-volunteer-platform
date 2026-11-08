@@ -6,14 +6,14 @@
 - `dev`: shared integration branch. Feature Pull Requests target `dev`.
 - Each member creates a feature branch **from the latest `origin/dev`**. Branches are independent; Git has no literal parent/child hierarchy.
 
-| Member                  | Branch                        | Owned modules                                                           |
-| ----------------------- | ----------------------------- | ----------------------------------------------------------------------- |
-| Umme Fahmida Sultana    | `feature/umme-auth-org`       | `auth`, `users`, `organizations`                                        |
-| Emran Ahmed Tanzim      | `feature/emran-participation` | `opportunities`, `community-requests`, `applications`, `participations` |
-| Shazzad Hossain Setu    | `feature/setu-verification`   | `verifications`, `admin`, `audit`                                       |
-| Intisar Jaman Chowdhury | `feature/intisar-passport`    | `impact-passport`, `skills`, `privacy`, API integration documentation   |
+| Member                  | Branch                        | Owned modules                                                      |
+| ----------------------- | ----------------------------- | ------------------------------------------------------------------ |
+| Umme Fahmida Sultana    | `feature/umme-auth-org`       | `auth`, `user`, `organization`                                     |
+| Emran Ahmed Tanzim      | `feature/emran-participation` | `opportunity`, `community-request`, `application`, `participation` |
+| Shazzad Hossain Setu    | `feature/setu-verification`   | `verification`, `fraud-flag`, `audit-log`, `admin`                 |
+| Intisar Jaman Chowdhury | `feature/intisar-passport`    | `impact-passport`, `skill`, `cause`, `public-sharing`              |
 
-Setu coordinates shared `src/main.ts`, `src/app.module.ts`, `src/common`, `src/config`, `package.json`, `.env.example`, and schema migrations. **Ask in the group before modifying these shared files.** Feature owners can import other modules' entity types but should not edit another member's module without agreement.
+The leader has pre-registered all feature modules in `src/app.module.ts`. Folder names are singular (e.g. `user`), but the routes (`/users`) and database tables (`users`) remain plural; see `src/modules/README.md`. Setu coordinates shared `src/main.ts`, `src/app.module.ts`, `src/common`, `src/config`, `package.json`, `.env.example`, and schema migrations. **Ask in the group before modifying these shared files.** Feature owners can import other modules' entity types but should not edit another member's module without agreement.
 
 ## Before development
 
