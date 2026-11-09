@@ -1,6 +1,23 @@
-/**
- * DTO placeholder only: define separate Create/Update (or action-specific) DTOs
- * with class-validator decorators before implementing controller write routes.
- * This file intentionally exports no usable DTO yet.
- */
-export {};
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import {
+  IsIn,
+  IsString,
+  Matches,
+  MaxLength,
+  ValidateIf,
+} from "class-validator";
+import type { UserStatus } from "@/modules/user/entities/user.entity";
+
+export class OrganizationDecisionDto {
+  @ApiPropertyOptional()
+  @ValidateIf((_o, v) => v !== undefined)
+  @IsString()
+  @Matches(/\S/)
+  @MaxLength(2000)
+  reason?: string;
+}
+export class UpdateUserStatusDto {
+  @ApiProperty({ enum: ["ACTIVE", "SUSPENDED"] })
+  @IsIn(["ACTIVE", "SUSPENDED"])
+  status!: UserStatus;
+}
