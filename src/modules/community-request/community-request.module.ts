@@ -1,8 +1,12 @@
 import { Module } from "@nestjs/common";
-import { CommunityRequestController } from "@/modules/community-request/community-request.controller";
-import { CommunityRequestService } from "@/modules/community-request/community-request.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { CommunityRequestEntity } from "./entities/community-request.entity";
+import { CauseEntity } from "@/modules/cause/entities/cause.entity";
+import { CommunityRequestController } from "./community-request.controller";
+import { CommunityRequestService } from "./community-request.service";
 
 @Module({
+  imports: [TypeOrmModule.forFeature([CommunityRequestEntity, CauseEntity])],
   controllers: [CommunityRequestController],
   providers: [CommunityRequestService],
   exports: [CommunityRequestService],
