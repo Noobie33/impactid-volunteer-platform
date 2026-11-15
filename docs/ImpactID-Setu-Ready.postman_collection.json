@@ -1,0 +1,517 @@
+{
+  "info": {
+    "name": "ImpactID — Setu Verification & Administration",
+    "description": "Postman requests generated from the uploaded ImpactID OpenAPI 3.0 document. Contains only the 11 documented routes for Setu's assigned modules, plus the required 400, 401, and 403 negative cases. The fraud-review request can be sent twice to capture 200 then 409. A transaction-rollback request is intentionally not fabricated: inspect the service transaction and identify a reproducible failure trigger before adding that evidence case.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "ownerToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzAwMDAwMDAtMDAwMC00MDAwLTgwMDAtMDAwMDAwMDAwMDAxIiwibmFtZSI6Ik9yZyBPd25lciIsImVtYWlsIjoib3Jnb3duZXJAaW1wYWN0aWQudGVzdCIsInJvbGUiOiJPUkdBTklaQVRJT04iLCJpYXQiOjE3OTQ2OTU0NTIsImV4cCI6MTc5NzI4NzQ1Mn0.Z2FqP6fS1yWMeoJ5VYP88GoCE-f4_JZDCx6mhMOzWJ8",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTAwMDAwMDAtMDAwMC00MDAwLTgwMDAtMDAwMDAwMDAwMDAxIiwibmFtZSI6IlN5c3RlbSBBZG1pbiIsImVtYWlsIjoiYWRtaW5AaW1wYWN0aWQudGVzdCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzk0Njk1NDUyLCJleHAiOjE3OTcyODc0NTJ9.wcW0IrgJmqduIAxeWxaTWUOynV_K3upZMiHSGpHehn0",
+      "type": "string"
+    },
+    {
+      "key": "nonAdminToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjAwMDAwMDAtMDAwMC00MDAwLTgwMDAtMDAwMDAwMDAwMDAxIiwibmFtZSI6IlRlc3QgVm9sdW50ZWVyIiwiZW1haWwiOiJ2b2x1bnRlZXJAaW1wYWN0aWQudGVzdCIsInJvbGUiOiJWT0xVTlRFRVIiLCJpYXQiOjE3OTQ2OTU0NTIsImV4cCI6MTc5NzI4NzQ1Mn0.NfmyporUDODx7_duLohoEZiV5OiNfuSfPT0C8QjsZGA",
+      "type": "string"
+    },
+    {
+      "key": "approveParticipationId",
+      "value": "20000000-0000-4000-8000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "rejectParticipationId",
+      "value": "20000000-0000-4000-8000-000000000002",
+      "type": "string"
+    },
+    {
+      "key": "validationParticipationId",
+      "value": "20000000-0000-4000-8000-000000000003",
+      "type": "string"
+    },
+    {
+      "key": "approveOrganizationId",
+      "value": "e0000000-0000-4000-8000-000000000002",
+      "type": "string"
+    },
+    {
+      "key": "rejectOrganizationId",
+      "value": "e0000000-0000-4000-8000-000000000003",
+      "type": "string"
+    },
+    {
+      "key": "fraudFlagId",
+      "value": "30000000-0000-4000-8000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "b0000000-0000-4000-8000-000000000002",
+      "type": "string"
+    },
+    {
+      "key": "verificationId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Verification",
+      "description": "Verification endpoints. Use actual UUIDs and the appropriate activity-owner/admin JWT.",
+      "item": [
+        {
+          "name": "Approve completed participation — success (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/verifications/{{approveParticipationId}}/approve",
+            "description": "Use a real COMPLETED participation owned by the authenticated activity owner. The report's request example uses 1.25 hours; change this to a valid value not exceeding the submitted hours if your service enforces that rule. Expected documented success: 201 Created.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ownerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmedHours\": 1.25\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject completed participation — success (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/verifications/{{rejectParticipationId}}/reject",
+            "description": "Use a real COMPLETED participation owned by the authenticated activity owner. Expected documented success: 201 Created.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ownerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Completion could not be confirmed.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read verification — success (200)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/verifications/{{verificationId}}",
+            "description": "Use a real verification UUID returned by an approve/reject request. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ownerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Revoke approved verification — success (200)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/verifications/{{verificationId}}/revoke",
+            "description": "Use a dedicated test verification that is currently APPROVED. Revocation is state-changing; do not use a record needed for another demo. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Duplicate verification record.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 — Administration",
+      "description": "Organization decisions and user status management. These operations change database state; use dedicated test records.",
+      "item": [
+        {
+          "name": "Approve pending organization — success (200)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/organizations/{{approveOrganizationId}}/approve",
+            "description": "Use a real organization with PENDING status. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Documents reviewed and approved.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject pending organization — success (200)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/organizations/{{rejectOrganizationId}}/reject",
+            "description": "Use a different real organization with PENDING status from the one used in the approve request. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Required documentation could not be verified.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change user status — success (200)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/users/{{userId}}/status",
+            "description": "Use a dedicated test user, not your own/admin account. After capturing the screenshot, restore the user with status ACTIVE. Allowed values: ACTIVE, SUSPENDED. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"SUSPENDED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reactivate user — success (200)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/users/{{userId}}/status",
+            "description": "Reactivates the user back to ACTIVE status. Expected: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 — Fraud & Audit",
+      "description": "Fraud flag and audit log endpoints. Review an OPEN flag once for 200, then repeat for 409.",
+      "item": [
+        {
+          "name": "List fraud flags — success (200)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/admin/fraud-flags?page=1&limit=10",
+            "description": "Lists fraud flags with pagination. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read fraud flag — success (200)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/admin/fraud-flags/{{fraudFlagId}}",
+            "description": "Use a real fraud flag UUID. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Review open fraud flag — success (200); repeat for 409",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/admin/fraud-flags/{{fraudFlagId}}",
+            "description": "Use a real OPEN fraud flag. Send once for the successful review screenshot (200). Then send the exact same request again for the duplicate-state screenshot (the report says reviewing the same flag again returns 409). Do not use a flag needed for another test. Allowed values: DISMISSED, CONFIRMED.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"DISMISSED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List audit logs — success (200)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/admin/audit-logs?page=1&limit=10",
+            "description": "Lists audit records with pagination. Expected documented success: 200 OK.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 — Required Failure Evidence",
+      "description": "Faculty-required 400, 401 and 403 examples. Transaction rollback must be configured only after inspecting the actual transaction implementation.",
+      "item": [
+        {
+          "name": "400 — Reject with missing required reason",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/verifications/{{validationParticipationId}}/reject",
+            "description": "Negative validation case. The OpenAPI schema marks reason as required. Use a real participation UUID. Expected validation response: 400 Bad Request. Capture the actual response; if it is not 400, report it rather than changing the screenshot.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ownerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "401 — Read verification without bearer token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/verifications/{{verificationId}}",
+            "description": "Negative authentication case. This request deliberately sends no Authorization header. Expected response for a protected route: 401 Unauthorized.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "403 — List audit logs with non-admin token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/admin/audit-logs?page=1&limit=10",
+            "description": "Negative authorization case. Set nonAdminToken to a valid JWT for a signed-in non-admin account. Expected response for this admin-only route: 403 Forbidden.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nonAdminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

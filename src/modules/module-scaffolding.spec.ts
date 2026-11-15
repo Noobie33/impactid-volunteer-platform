@@ -72,9 +72,10 @@ describe("module scaffolding", () => {
       expect(
         Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, moduleClass),
       ).toHaveLength(1);
+      const expectedCount = moduleClass === AuthModule ? 2 : 1;
       expect(
         Reflect.getMetadata(MODULE_METADATA.PROVIDERS, moduleClass),
-      ).toHaveLength(1);
+      ).toHaveLength(expectedCount);
     }
   });
 
