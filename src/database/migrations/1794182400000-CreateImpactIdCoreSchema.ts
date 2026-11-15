@@ -1,9 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-/**
- * Shared starting schema. Feature owners must update entity mappings to match
- * this migration and propose any schema changes as separate reviewed migrations.
- */
 export class CreateImpactIdCoreSchema1794182400000 implements MigrationInterface {
   name = "CreateImpactIdCoreSchema1794182400000";
 
