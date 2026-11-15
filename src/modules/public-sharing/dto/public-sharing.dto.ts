@@ -1,6 +1,19 @@
-/**
- * DTO placeholder only: define separate Create/Update (or action-specific) DTOs
- * with class-validator decorators before implementing controller write routes.
- * This file intentionally exports no usable DTO yet.
- */
-export {};
+import { IsBoolean, IsIn, IsNotEmpty } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { ImpactRecordEntity } from "@/modules/impact-passport/entities/impact-record.entity";
+ 
+export class UpdateSharingSettingsDto {
+  @ApiProperty({
+    example: true,
+    description: "Enable or disable the public Impact Passport share link",
+  })
+  @IsBoolean()
+  @IsNotEmpty()
+  sharingEnabled!: boolean;
+}
+ 
+export class UpdateRecordVisibilityDto {
+  @ApiProperty({ enum: ["PUBLIC", "PRIVATE"] })
+  @IsIn(["PUBLIC", "PRIVATE"])
+  visibility!: ImpactRecordEntity["visibility"];
+}
