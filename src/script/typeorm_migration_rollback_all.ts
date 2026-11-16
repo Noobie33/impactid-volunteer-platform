@@ -1,4 +1,4 @@
-import { dataSourceOptions } from "@/config/.";
+import { dataSourceOptions } from "@/config/database.config";
 import { DataSource, MigrationExecutor } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 

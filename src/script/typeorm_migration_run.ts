@@ -1,21 +1,19 @@
-import { dataSourceOptions } from "@/config/.";
+import { dataSourceOptions } from "@/config/database.config";
 import { DataSource } from "typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
-const migrateRun = () => {
-  console.log(`Migrating.....`);
-  const ds = new DataSource({
-    ...dataSourceOptions,
-  } as PostgresConnectionOptions);
-  ds.initialize()
-    .then(() => {
-      ds.runMigrations()
-        .then(() => {
-          console.log("migration completed");
-        })
-        .catch((err) => console.error(err));
-    })
-    .catch((err) => console.error(err));
-};
+async function runMigrations() {
+  const dataSource = new DataSource(dataSourceOptions);
 
-migrateRun();
+  try {
+    await dataSource.initialize();
+    const migrations = await dataSource.runMigrations();
+    console.log(`Applied ${migrations.length} migration(s).`);
+  } finally {
+    if (dataSource.isInitialized) await dataSource.destroy();
+  }
+}
+
+runMigrations().catch((error: unknown) => {
+  console.error("Migration failed:", error);
+  process.exitCode = 1;
+});
