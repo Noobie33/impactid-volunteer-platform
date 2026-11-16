@@ -16,7 +16,7 @@ All application routes are under the root path (e.g. `/auth/login`), while Swagg
 | PATCH  | `/organizations/:id` | Owner                                          |
 | DELETE | `/organizations/:id` | Owner/Admin; safe archive rules                |
 
-## Activities and participation — Emran
+## Activities and participation — Intisar
 
 | Method           | Route                          | Access                                                    |
 | ---------------- | ------------------------------ | --------------------------------------------------------- |
@@ -48,7 +48,7 @@ All application routes are under the root path (e.g. `/auth/login`), while Swagg
 | GET       | `/admin/audit-logs`                            | Administrator; read-only           |
 | PATCH     | `/admin/users/:id/status`                      | Administrator                      |
 
-## Passport, privacy and catalogs — Intisar
+## Passport, privacy and catalogs — Emran
 
 | Method           | Route                                     | Access                                       |
 | ---------------- | ----------------------------------------- | -------------------------------------------- |

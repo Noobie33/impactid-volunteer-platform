@@ -5,9 +5,9 @@ The directories follow the faculty's `src/modules/<name>/dto`, `entities`, `<nam
 | Owner   | Folders                                                            |
 | ------- | ------------------------------------------------------------------ |
 | Umme    | `auth`, `user`, `organization`                                     |
-| Emran   | `opportunity`, `community-request`, `application`, `participation` |
+| Intisar | `opportunity`, `community-request`, `application`, `participation` |
 | Setu    | `verification`, `fraud-flag`, `audit-log`, `admin`                 |
-| Intisar | `impact-passport`, `skill`, `cause`, `public-sharing`              |
+| Emran   | `impact-passport`, `skill`, `cause`, `public-sharing`              |
 
 ## What's already provided
 

@@ -13,15 +13,15 @@ Each user has exactly one role: `VOLUNTEER`, `ORGANIZATION`, or `ADMINISTRATOR`.
 | `users`              | Umme               | `id`, unique `email`, `role`, `status`, bcrypt `password_hash`                |
 | `profiles`           | Umme               | `user_id` 1:1 `users`, unique `share_token`, private by default               |
 | `organizations`      | Umme               | `owner_user_id` → `users`, `approved_by` → `users`                            |
-| `causes`             | Intisar            | unique `name`, `is_active`                                                    |
-| `skills`             | Intisar            | unique `name`, `is_active`                                                    |
-| `opportunities`      | Emran              | `organization_id` → `organizations`, `cause_id` → `causes`                    |
-| `opportunity_skills` | Emran              | many-to-many `opportunities` ↔ `skills`                                       |
-| `community_requests` | Emran              | `requester_id` → `users`, `cause_id` → `causes`                               |
-| `applications`       | Emran              | `volunteer_id` → `users`; exactly one of `opportunity_id`/`request_id`        |
-| `participations`     | Emran              | unique `application_id` → `applications`, `volunteer_id` → `users`            |
+| `causes`             | Emran              | unique `name`, `is_active`                                                    |
+| `skills`             | Emran              | unique `name`, `is_active`                                                    |
+| `opportunities`      | Intisar            | `organization_id` → `organizations`, `cause_id` → `causes`                    |
+| `opportunity_skills` | Intisar            | many-to-many `opportunities` ↔ `skills`                                       |
+| `community_requests` | Intisar            | `requester_id` → `users`, `cause_id` → `causes`                               |
+| `applications`       | Intisar            | `volunteer_id` → `users`; exactly one of `opportunity_id`/`request_id`        |
+| `participations`     | Intisar            | unique `application_id` → `applications`, `volunteer_id` → `users`            |
 | `verifications`      | Setu               | unique `participation_id` → `participations`, `verifier_id` → `users`         |
-| `impact_records`     | Intisar            | `volunteer_id` → `users`, unique nullable `verification_id` → `verifications` |
+| `impact_records`     | Emran              | `volunteer_id` → `users`, unique nullable `verification_id` → `verifications` |
 | `fraud_flags`        | Setu               | `participation_id` → `participations`, nullable `reviewed_by` → `users`       |
 | `audit_logs`         | Setu               | nullable `actor_id` → `users`; append-only; no passwords/tokens               |
 
