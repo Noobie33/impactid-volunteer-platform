@@ -23,7 +23,7 @@ The directories follow the faculty's `src/modules/<name>/dto`, `entities`, `<nam
 3. For database access, import `TypeOrmModule.forFeature([YourEntity])` into your module, then inject repositories. Keep `synchronize: false`.
 4. Follow `docs/DATABASE_CONTRACT.md` and never expose `passwordHash` or private passport information. `UserEntity.passwordHash` uses `select: false`: the login query must explicitly select it.
 5. Treat PostgreSQL `numeric` values as **strings** from the driver, and only convert after validation. `activityDate` is an ISO calendar date (`YYYY-MM-DD`), not a timestamp.
-6. All cross-table state changes (acceptance, approval, revocation) must use transactions. **Setu coordinates the verification + impact record + audit transaction.** Intisar owns the impact record mapping and passport read APIs.
+6. All cross-table state changes (acceptance, approval, revocation) must use transactions. **Setu coordinates the verification + impact record + audit transaction.** Emran owns the impact record mapping and passport read APIs.
 7. Add tests for every completed flow. The current scaffold tests only validate wiring and entity metadata, not business behavior.
 
 The owners edit their own module folders, not shared `app.module.ts`, `src/common`, `src/config`, or another owner's entity without coordination. API paths remain those in `docs/API_CONTRACT.md`; singular folder names do **not** change public routes.
